@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Лазерное сканирование, обработка облаков точек и BIM-моделирование объектов."
+    />
+    <title>Лазерное сканирование — ГеоВектор</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260928-layout-11" />
+    <link rel="stylesheet" href="./layout-refinements.css?v=20260928-41" />
+    <script src="./script.js?v=20260928-mobile-accordion-1" defer></script>
+    <script src="./point-cloud.js" type="module"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Перейти к содержанию</a>
+
+    <header class="site-header">
+      <a class="logo" href="https://geo-vector.ru/" aria-label="ГеоВектор — главная">
+        <img
+          src="https://static.tildacdn.com/tild3539-3234-4263-a165-303534616332/_24x_1.svg"
+          alt="ГеоВектор"
+        />
+      </a>
+
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+        <span class="sr-only">Открыть меню</span>
+      </button>
+
+      <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
+        <a href="https://geo-vector.ru/yslugi">Услуги</a>
+        <a href="https://geo-vector.ru/project">Проекты</a>
+        <a href="https://geo-vector.ru/progect">О компании</a>
+        <a href="https://geovector.store/">Магазин</a>
+      </nav>
+
+      <a class="header-phone" href="tel:+79089184784">+7 (908) 918-47-84</a>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <video
+          class="hero-media"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="https://static.tildacdn.com/tild6461-3539-4061-a365-376435306238/__2026-09-21_150349.png"
+        >
+          <source
+            src="https://dl.dropbox.com/scl/fi/t1emlo0y9qxmd6nik3ps9/IMG_0538.mp4?rlkey=u4lihu29vygn6mnsn5iugbd6v&st=em7hjf5m&dl=0"
+            type="video/mp4"
+          />
+        </video>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="scan-line" aria-hidden="true"></div>
+
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <h1 id="hero-title">Лазерное<br />сканирование</h1>
+            <p>
+              Точные исходные данные для проектирования, реконструкции и эксплуатации —
+              от полевых работ до готовой документации
+            </p>
+          </div>
+          <div class="hero-actions" aria-label="Действия">
+            <a class="hero-action hero-action-primary brief-trigger" href="#project-brief" data-open-brief>
+              <span>Рассчитать проект</span>
+            </a>
+            <a class="hero-action-secondary" href="#contact">Обсудить задачу</a>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="tech-cloud" id="technical-parameters" aria-labelledby="tech-cloud-title">
+        <div class="tech-cloud-layout">
+          <div class="tech-cloud-visual" aria-hidden="true">
+            <canvas id="tech-cloud-canvas"></canvas>
+          </div>
+
+          <div class="tech-cloud-copy">
+            <header class="tech-cloud-intro">
+              <p>Ключевые технические параметры</p>
+              <h2 id="tech-cloud-title">Точность, которую<br />можно измерить</h2>
+            </header>
+
+            <article class="tech-metric is-active" data-tech-step="0">
+              <strong>2–5 мм</strong>
+              <p>Точность измерений</p>
+            </article>
+            <article class="tech-metric" data-tech-step="1">
+              <strong>≤ 3 мм</strong>
+              <p>Точность регистрации</p>
+            </article>
+            <article class="tech-metric" data-tech-step="2">
+              <strong>до LOD 400</strong>
+              <p>Детализация BIM-модели</p>
+            </article>
+            <article class="tech-metric" data-tech-step="3">
+              <strong>1–3 мм</strong>
+              <p>Геодезическая привязка</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="services-scene" id="workflow" aria-labelledby="services-title">
+        <div class="services-column">
+          <header class="services-heading">
+            <h2 id="services-title">Партнёр на всех<br />этапах проекта</h2>
+          </header>
+          <ol class="service-sequence">
+            <li class="is-active" data-service="0"><span>01</span><div><h3>Лазерное сканирование</h3><p>Точная фиксация существующего состояния объекта</p></div></li>
+            <li data-service="1"><span>02</span><div><h3>Обработка данных</h3><p>Сшивка, очистка и классификация облака точек</p></div></li>
+            <li data-service="2"><span>03</span><div><h3>Обмерная документация</h3><p>Планы, фасады, разрезы и чертежи в нужных форматах</p></div></li>
+            <li data-service="3"><span>04</span><div><h3>3D / BIM-моделирование</h3><p>Цифровая модель существующего объекта под задачи проекта</p></div></li>
+            <li data-service="4"><span>05</span><div><h3>Данные для проектирования</h3><p>Подготовленные материалы для дальнейшей работы</p></div></li>
+            <li data-service="5"><span>06</span><div><h3>Проектирование</h3><p>Проектные решения на основе полученных точных данных</p></div></li>
+          </ol>
+        </div>
+
+        <div class="services-stage" data-model-state="0" aria-hidden="true">
+          <div class="model-mount" id="model-mount"></div>
+        </div>
+      </section>
+
+      <section class="results-scene" id="results" aria-labelledby="results-title">
+        <div class="results-stage" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="metadata" poster="https://static.tildacdn.com/tild6461-3539-4061-a365-376435306238/__2026-09-21_150349.png">
+            <source src="https://dl.dropbox.com/scl/fi/a24kt6oljzjnumyxxlvcd/IMG_0537_-1.mp4?rlkey=phjt7jlhfawthupqxjt7pogg0&st=tzcyzqvg&dl=0" type="video/mp4" />
+          </video>
+          <div class="stage-shade"></div>
+          <div class="result-slice"></div>
+        </div>
+        <div class="results-column">
+          <header class="results-heading">
+            <h2 id="results-title">Что получает<br />заказчик</h2>
+          </header>
+          <div class="result-sequence">
+            <article class="is-active" data-result="0"><h3>Облако точек</h3><p>Точная цифровая копия объекта</p><strong>E57 · RCP · LAS · PLY</strong></article>
+            <article data-result="1"><h3>Обмерные чертежи</h3><p>Планы, фасады, разрезы и другая документация</p><strong>DWG · PDF · DXF</strong></article>
+            <article data-result="2"><h3>3D / BIM-модель</h3><p>Модель существующего объекта под задачи проекта</p><strong>RVT · IFC · NWD</strong></article>
+            <article data-result="3"><h3>Исходные данные</h3><p>Подготовленные материалы в нужных форматах</p><strong>AutoCAD · Revit · Civil 3D</strong></article>
+          </div>
+        </div>
+      </section>
+
+      <aside class="conversion-pause" aria-labelledby="conversion-title">
+        <div class="conversion-pause-copy">
+          <p>Есть объект для сканирования?</p>
+          <h2 id="conversion-title">Получите состав и стоимость работ</h2>
+          <span>Ответьте на несколько вопросов — мы подготовим предварительный расчёт под ваш объект.</span>
+        </div>
+        <div class="conversion-pause-actions">
+          <a class="conversion-primary brief-trigger" href="#project-brief" data-open-brief>Рассчитать проект</a>
+          <a class="conversion-secondary" href="#contact">Обсудить задачу <span aria-hidden="true">↓</span></a>
+        </div>
+      </aside>
+
+      <section class="experience-section" aria-labelledby="experience-title">
+        <header class="experience-heading">
+          <h2 id="experience-title">Наш опыт</h2>
+        </header>
+
+        <div class="proof-section" aria-label="Опыт команды в цифрах">
+          <div class="proof-grid">
+            <article><strong>500+</strong><span>Объектов отсканировано</span></article>
+            <article><strong>12 млрд+</strong><span>Точек обработано</span></article>
+            <article><strong>1 500 000 м²</strong><span>Площадь выполненной съёмки</span></article>
+          </div>
+        </div>
+
+        <div class="latest-work" id="latest-work" aria-label="Последние работы">
+        <div class="latest-work-inner">
+          <article class="latest-feature">
+            <figure class="latest-work-media latest-work-media-main project-gallery" data-gallery>
+              <div class="project-gallery-track">
+                <img class="is-active" data-gallery-slide data-caption="Общий вид модели" src="./assets/latest-work/moinako-overview.png" alt="Общий вид BIM-модели комплекса Мойнако Резорт" />
+                <img data-gallery-slide data-caption="Фрагмент фасада" src="./assets/latest-work/moinako-detail.png" alt="Детальный ракурс BIM-модели комплекса Мойнако Резорт" loading="lazy" />
+                <img data-gallery-slide data-caption="Фасадная геометрия" src="./assets/latest-work/moinako-facade.png" alt="Фасад BIM-модели комплекса Мойнако Резорт" loading="lazy" />
+              </div>
+              <div class="project-gallery-controls">
+                <button type="button" data-gallery-prev aria-label="Предыдущий ракурс">←</button>
+                <span data-gallery-count>01 / 03</span>
+                <button type="button" data-gallery-next aria-label="Следующий ракурс">→</button>
+              </div>
+              <figcaption data-gallery-caption>Общий вид модели</figcaption>
+            </figure>
+            <div class="latest-feature-copy">
+              <span class="latest-work-number">01 / Евпатория</span>
+              <h3>Мойнако Резорт</h3>
+              <p>Наземное сканирование фасадов, сшивка и очистка облака точек, создание BIM-модели для дальнейшего проектирования остекления.</p>
+              <dl>
+                <div><dt>Объект</dt><dd>Туристическо-рекреационный комплекс</dd></div>
+                <div><dt>Результат</dt><dd>3D-модель фасадов</dd></div>
+              </dl>
+            </div>
+          </article>
+
+          <div class="latest-work-grid">
+            <article class="latest-work-card">
+              <figure class="latest-work-media project-gallery" data-gallery>
+                <div class="project-gallery-track">
+                  <img class="is-active" data-gallery-slide data-caption="Пространственная структура здания" src="./assets/latest-work/ussr-cutaway.png" alt="Разрез BIM-модели девятиэтажного здания" />
+                  <img data-gallery-slide data-caption="Общий вид модели" src="./assets/latest-work/ussr-overview.png" alt="Общий вид BIM-модели девятиэтажного здания" loading="lazy" />
+                  <img data-gallery-slide data-caption="Детализация конструкций" src="./assets/latest-work/ussr-detail.png" alt="Детальный вид BIM-модели девятиэтажного здания" loading="lazy" />
+                </div>
+                <div class="project-gallery-controls">
+                  <button type="button" data-gallery-prev aria-label="Предыдущий ракурс">←</button>
+                  <span data-gallery-count>01 / 03</span>
+                  <button type="button" data-gallery-next aria-label="Следующий ракурс">→</button>
+                </div>
+                <figcaption data-gallery-caption>Пространственная структура здания</figcaption>
+              </figure>
+              <div>
+                <span class="latest-work-number">02 / Мариуполь</span>
+                <h3>Девятиэтажное здание</h3>
+                <p>Сканирование объекта и создание полной модели для дальнейших проектных работ.</p>
+              </div>
+            </article>
+
+            <article class="latest-work-card">
+              <figure class="latest-work-media project-gallery" data-gallery>
+                <div class="project-gallery-track">
+                  <img class="is-active" data-gallery-slide data-caption="Конструкции и геометрия кровли" src="./assets/latest-work/luchistoe-structure.png" alt="Конструктивная BIM-модель коттеджа в Лучистом" />
+                  <img data-gallery-slide data-caption="Общий вид модели" src="./assets/latest-work/luchistoe-overview.png" alt="Общий вид BIM-модели коттеджа в Лучистом" loading="lazy" />
+                  <img data-gallery-slide data-caption="Детальный ракурс" src="./assets/latest-work/luchistoe-detail.png" alt="Детальный вид BIM-модели коттеджа в Лучистом" loading="lazy" />
+                </div>
+                <div class="project-gallery-controls">
+                  <button type="button" data-gallery-prev aria-label="Предыдущий ракурс">←</button>
+                  <span data-gallery-count>01 / 03</span>
+                  <button type="button" data-gallery-next aria-label="Следующий ракурс">→</button>
+                </div>
+                <figcaption data-gallery-caption>Конструкции и геометрия кровли</figcaption>
+              </figure>
+              <div>
+                <span class="latest-work-number">03 / Алушта</span>
+                <h3>Коттедж в Лучистом</h3>
+                <p>Точные исходные данные и 3D-модель существующего здания для нового этапа проектирования.</p>
+              </div>
+            </article>
+
+            <article class="latest-work-card latest-work-card-wide">
+              <figure class="latest-work-media project-gallery" data-gallery>
+                <div class="project-gallery-track">
+                  <img class="is-active" data-gallery-slide data-caption="Фасадная геометрия" src="./assets/latest-work/omega-facade.png" alt="Фрагмент BIM-модели многоквартирного дома Омега" />
+                  <img data-gallery-slide data-caption="Общий вид модели" src="./assets/latest-work/omega-overview.png" alt="Общий вид BIM-модели жилого дома Омега" loading="lazy" />
+                  <img data-gallery-slide data-caption="Детализация фасада" src="./assets/latest-work/omega-detail.png" alt="Детальный вид BIM-модели жилого дома Омега" loading="lazy" />
+                </div>
+                <div class="project-gallery-controls">
+                  <button type="button" data-gallery-prev aria-label="Предыдущий ракурс">←</button>
+                  <span data-gallery-count>01 / 03</span>
+                  <button type="button" data-gallery-next aria-label="Следующий ракурс">→</button>
+                </div>
+                <figcaption data-gallery-caption>Фасадная геометрия</figcaption>
+              </figure>
+              <div>
+                <span class="latest-work-number">04 / Симферополь</span>
+                <h3>Жилой дом «Омега»</h3>
+                <p>Модель фасадов по данным лазерного сканирования для проектирования системы остекления.</p>
+              </div>
+            </article>
+          </div>
+
+        </div>
+        </div>
+      </section>
+
+      <section class="projects section" aria-labelledby="projects-title">
+        <div class="section-inner">
+          <div class="section-heading-row">
+            <div>
+              <h2 class="section-title" id="projects-title">Избранные проекты</h2>
+            </div>
+            <a href="https://geo-vector.ru/project">Все проекты <span aria-hidden="true">↗</span></a>
+          </div>
+
+          <div class="project-grid">
+            <a class="project-card" href="https://geo-vector.ru/p4">
+              <span class="project-card-media project-card-media-theatre" role="img" aria-label="Облако точек театрального зала"></span>
+              <span class="project-number">01</span>
+              <div>
+                <h3>Лазерное сканирование Большого зала Театра оперы и балета</h3>
+                <time datetime="2025-12-14">14.12.2025</time>
+              </div>
+            </a>
+            <a class="project-card" href="https://geo-vector.ru/p3">
+              <span class="project-card-media project-card-media-cathedral" role="img" aria-label="Трёхмерная модель собора"></span>
+              <span class="project-number">02</span>
+              <div>
+                <h3>Создание 3D-модели Собора Святого Владимира в Севастополе</h3>
+                <time datetime="2025-10-21">21.10.2025</time>
+              </div>
+            </a>
+            <a class="project-card" href="https://geo-vector.ru/p2">
+              <span class="project-card-media project-card-media-reconstruction" role="img" aria-label="Облако точек здания для реконструкции"></span>
+              <span class="project-number">03</span>
+              <div>
+                <h3>Реконструкция здания с использованием 3D-модели</h3>
+                <time datetime="2024-09-30">30.09.2024</time>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="pricing section" aria-labelledby="pricing-title">
+        <div class="section-inner pricing-inner">
+          <header class="pricing-header">
+            <div>
+              <h2 class="section-title" id="pricing-title">Стоимость услуг</h2>
+            </div>
+          </header>
+
+          <div class="price-groups">
+            <article class="price-group">
+              <header><span>01</span><h3>Сканирование<br />и облако</h3></header>
+              <section class="price-service">
+                <h4>Сканирование</h4>
+                <dl>
+                  <div><dt>Цветное</dt><dd>60 руб/м²</dd></div>
+                  <div><dt>Чёрно-белое</dt><dd>50 руб/м²</dd></div>
+                  <div><dt>Без фотографий</dt><dd>40 руб/м²</dd></div>
+                </dl>
+              </section>
+              <section class="price-service">
+                <h4>Сшивка облака</h4>
+                <dl>
+                  <div><dt>До 30 точек</dt><dd>15 руб/м²</dd></div>
+                  <div><dt>30–100 точек</dt><dd>20 руб/м²</dd></div>
+                  <div><dt>Более 100 точек</dt><dd>25 руб/м²</dd></div>
+                </dl>
+              </section>
+              <section class="price-service">
+                <h4>Очистка облака</h4>
+                <dl>
+                  <div><dt>Простая</dt><dd>5 руб/м²</dd></div>
+                  <div><dt>Сложная</dt><dd>10 руб/м²</dd></div>
+                </dl>
+              </section>
+            </article>
+
+            <article class="price-group price-group-models">
+              <header><span>02</span><h3>3D / BIM<br />моделирование</h3></header>
+              <section class="price-service">
+                <h4>AutoCAD по облаку точек</h4>
+                <dl><div><dt>3D-полилинии</dt><dd>45 руб/м²</dd></div></dl>
+                <p>Выдача схем — 4 000 руб/схема</p>
+              </section>
+              <section class="price-service">
+                <h4>Revit по облаку точек</h4>
+                <dl>
+                  <div><dt>Модель LOD 200</dt><dd>80 руб/м²</dd></div>
+                  <div><dt>Модель LOD 300</dt><dd>120 руб/м²</dd></div>
+                </dl>
+                <p>Обмерные планы, разрезы и фасады — 4 000 руб/схема</p>
+              </section>
+              <section class="price-service">
+                <h4>Полигональная сеть</h4>
+                <dl><div><dt>Leica Cyclone</dt><dd>80 руб/м²</dd></div></dl>
+              </section>
+            </article>
+
+            <article class="price-group">
+              <header><span>03</span><h3>Чертежи<br />и контроль</h3></header>
+              <section class="price-service">
+                <h4>2D-схемы в AutoCAD</h4>
+                <dl><div><dt>По облаку точек</dt><dd>4 000 руб/схема</dd></div></dl>
+              </section>
+              <section class="price-service">
+                <h4>Расчёт отклонений</h4>
+                <dl><div><dt>Leica Cyclone</dt><dd>3 000 руб/схема</dd></div></dl>
+                <p>Сравнение с проектом заказчика и выдача схем с отклонениями</p>
+              </section>
+            </article>
+          </div>
+
+          <div class="pricing-brief">
+            <p class="pricing-note">Финальная стоимость зависит от площади, сложности объекта и состава выдаваемых материалов.</p>
+            <a class="brief-link brief-trigger" href="#project-brief" data-open-brief>
+              Уточнить стоимость по вашему объекту
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="equipment section" aria-labelledby="equipment-title">
+        <div class="section-inner">
+          <header class="equipment-heading">
+            <div>
+              <h2 class="section-title" id="equipment-title">Оборудование для<br />точных измерений</h2>
+            </div>
+            <span>Подбираем комплект под геометрию объекта, условия съёмки и необходимую точность результата.</span>
+          </header>
+          <div class="equipment-grid">
+            <article>
+              <div class="equipment-image">
+                <img src="./assets/equipment/laser-scanner.webp" alt="Наземный лазерный сканер на штативе внутри здания" loading="lazy" />
+              </div>
+              <h3>Лазерное сканирование</h3>
+              <p>Точная фиксация геометрии помещений, фасадов и сложных конструкций.</p>
+              <ul><li>Наземные сканеры</li><li>SLAM и мобильные системы</li><li>Штативы и марки</li></ul>
+            </article>
+            <article>
+              <div class="equipment-image">
+                <img src="./assets/equipment/mapping-drone.webp" alt="Беспилотный летательный аппарат для аэросъёмки" loading="lazy" />
+              </div>
+              <h3>Аэросъёмка</h3>
+              <p>Съёмка территории, кровель и протяжённых объектов с воздуха.</p>
+              <ul><li>БПЛА самолётного типа</li><li>Квадрокоптеры</li><li>Геодезическая привязка</li></ul>
+            </article>
+            <article>
+              <div class="equipment-image">
+                <img src="./assets/equipment/digital-level.webp" alt="Цифровой нивелир со штативом и измерительной рейкой" loading="lazy" />
+              </div>
+              <h3>Высотные измерения</h3>
+              <p>Контроль отметок и точное определение перепадов высот на объекте.</p>
+              <ul><li>Цифровые нивелиры</li><li>Оптические нивелиры</li><li>Рейки и штативы</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact section" id="contact" aria-labelledby="contact-title">
+        <div class="section-inner">
+          <div class="contact-card">
+            <div class="contact-intro">
+              <h2 id="contact-title">Связаться<br />с нами</h2>
+              <p>По любым вопросам или предложениям</p>
+              <a class="contact-quick-phone" href="tel:+79089184784">
+                <span>Позвонить напрямую</span>
+                +7 (908) 918-47-84
+              </a>
+            </div>
+            <form class="contact-form" novalidate>
+              <label>
+                <span>Ваше имя</span>
+                <input type="text" name="name" autocomplete="name" placeholder="Ваше имя" />
+              </label>
+              <label>
+                <span>Телефон</span>
+                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (000) 000-00-00" />
+              </label>
+              <button type="submit">Оставить заявку</button>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <small>Отправляя форму, вы соглашаетесь с политикой конфиденциальности и обработкой персональных данных.</small>
+            </form>
+            <div class="contact-footer">
+              <div class="contact-direct">
+                <span>Написать</span>
+                <a href="mailto:geo-vectorru@yandex.ru">geo-vectorru@yandex.ru</a>
+              </div>
+              <div class="socials">
+                <a href="https://t.me/GeoVektor" aria-label="Telegram">TG</a>
+                <a href="https://wa.me/+79089184784" aria-label="WhatsApp">WA</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="brief-dialog" id="project-brief" aria-labelledby="brief-title">
+      <div class="brief-shell">
+        <a class="brief-close" href="#main" data-close-brief aria-label="Закрыть бриф">
+          <span></span><span></span>
+        </a>
+
+        <aside class="brief-aside">
+          <p class="brief-kicker">Предварительный расчёт</p>
+          <h2 id="brief-title">Расскажите<br /><span>об объекте</span></h2>
+          <p>Ответы займут около пяти минут и помогут точнее определить состав, срок и стоимость работ.</p>
+          <div class="brief-progress" aria-hidden="true">
+            <span class="brief-progress-bar"></span>
+          </div>
+          <p class="brief-progress-label" aria-live="polite">Шаг 1 из 6</p>
+        </aside>
+
+        <form class="brief-form" novalidate>
+          <section class="brief-step is-active" data-brief-step="0" aria-labelledby="brief-step-1">
+            <div class="brief-step-heading">
+              <span>01</span>
+              <div>
+                <h3 id="brief-step-1">Объект и задача</h3>
+                <p>Начнём с контекста — без технических терминов.</p>
+              </div>
+            </div>
+            <div class="brief-fields brief-fields-two">
+              <label class="brief-field">
+                <span>Название или тип объекта</span>
+                <input type="text" name="object" placeholder="Например, торговый центр" autocomplete="organization-title" />
+              </label>
+              <label class="brief-field">
+                <span>Ориентировочная площадь, м²</span>
+                <input type="number" name="area" min="1" inputmode="numeric" placeholder="30 000" />
+              </label>
+            </div>
+            <fieldset class="brief-options">
+              <legend>Для чего нужны данные?</legend>
+              <label><input type="radio" name="purpose" value="Проектирование или реконструкция" /><span>Проектирование или реконструкция</span></label>
+              <label><input type="radio" name="purpose" value="Обмерная документация" /><span>Обмерная документация</span></label>
+              <label><input type="radio" name="purpose" value="Эксплуатация объекта" /><span>Эксплуатация объекта</span></label>
+              <label><input type="radio" name="purpose" value="Контроль или исполнительная съёмка" /><span>Контроль или исполнительная съёмка</span></label>
+              <label><input type="radio" name="purpose" value="Другая задача" /><span>Другая задача / пока не определено</span></label>
+            </fieldset>
+          </section>
+
+          <section class="brief-step" data-brief-step="1" aria-labelledby="brief-step-2" hidden>
+            <div class="brief-step-heading">
+              <span>02</span>
+              <div>
+                <h3 id="brief-step-2">Границы сканирования</h3>
+                <p>Отметьте всё, что должно попасть в цифровую модель.</p>
+              </div>
+            </div>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Какие зоны сканируем?</legend>
+              <label><input type="checkbox" name="scan_zones" value="Весь объект" /><span>Весь объект</span></label>
+              <label><input type="checkbox" name="scan_zones" value="Внутренние помещения" /><span>Внутренние помещения</span></label>
+              <label><input type="checkbox" name="scan_zones" value="Фасады" /><span>Фасады</span></label>
+              <label><input type="checkbox" name="scan_zones" value="Кровля" /><span>Кровля</span></label>
+              <label><input type="checkbox" name="scan_zones" value="Технические помещения" /><span>Технические помещения</span></label>
+              <label><input type="checkbox" name="scan_zones" value="Паркинг и подземная часть" /><span>Паркинг и подземная часть</span></label>
+            </fieldset>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Что ещё учитывать?</legend>
+              <label><input type="checkbox" name="extra_scope" value="Видимые инженерные сети" /><span>Видимые инженерные сети</span></label>
+              <label><input type="checkbox" name="extra_scope" value="Пристройки" /><span>Пристройки</span></label>
+              <label><input type="checkbox" name="extra_scope" value="Парковки и подъездные пути" /><span>Парковки и подъездные пути</span></label>
+              <label><input type="checkbox" name="extra_scope" value="Дорожки, бордюры, бассейн" /><span>Дорожки, бордюры, бассейн</span></label>
+              <label><input type="checkbox" name="extra_scope" value="Озеленение" /><span>Озеленение</span></label>
+              <label><input type="checkbox" name="extra_scope" value="Наружные инженерные сети" /><span>Наружные инженерные сети</span></label>
+            </fieldset>
+          </section>
+
+          <section class="brief-step" data-brief-step="2" aria-labelledby="brief-step-3" hidden>
+            <div class="brief-step-heading">
+              <span>03</span>
+              <div>
+                <h3 id="brief-step-3">Исходные данные и условия</h3>
+                <p>Это влияет на точность привязки и возможность моделирования скрытых элементов.</p>
+              </div>
+            </div>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Что уже есть?</legend>
+              <label><input type="checkbox" name="source_data" value="Планы, фасады или разрезы" /><span>Планы, фасады или разрезы</span></label>
+              <label><input type="checkbox" name="source_data" value="Схемы инженерных сетей" /><span>Схемы инженерных сетей</span></label>
+              <label><input type="checkbox" name="source_data" value="BIM/CAD-модель" /><span>BIM/CAD-модель</span></label>
+              <label><input type="checkbox" name="source_data" value="Геодезическая основа" /><span>Геодезическая основа</span></label>
+              <label><input type="checkbox" name="source_data" value="Техническое обследование" /><span>Техническое обследование</span></label>
+              <label><input type="checkbox" name="source_data" value="Исходных данных нет" /><span>Исходных данных нет</span></label>
+            </fieldset>
+            <div class="brief-question-grid">
+              <fieldset class="brief-options">
+                <legend>Нужна привязка к координатам?</legend>
+                <label><input type="radio" name="coordinates" value="Да" /><span>Да</span></label>
+                <label><input type="radio" name="coordinates" value="Нет" /><span>Нет</span></label>
+                <label><input type="radio" name="coordinates" value="Нужна консультация" /><span>Нужна консультация</span></label>
+              </fieldset>
+              <fieldset class="brief-options">
+                <legend>Зеркальные поверхности можно временно закрыть?</legend>
+                <label><input type="radio" name="mirrors" value="Да" /><span>Да</span></label>
+                <label><input type="radio" name="mirrors" value="Нет" /><span>Нет</span></label>
+                <label><input type="radio" name="mirrors" value="Нужно уточнить" /><span>Нужно уточнить</span></label>
+              </fieldset>
+            </div>
+          </section>
+
+          <section class="brief-step" data-brief-step="3" aria-labelledby="brief-step-4" hidden>
+            <div class="brief-step-heading">
+              <span>04</span>
+              <div>
+                <h3 id="brief-step-4">Состав BIM-модели</h3>
+                <p>Выберите разделы и необходимую глубину проработки.</p>
+              </div>
+            </div>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Какие разделы моделировать?</legend>
+              <label><input type="checkbox" name="model_sections" value="Архитектура" /><span>Архитектура</span></label>
+              <label><input type="checkbox" name="model_sections" value="Конструкции" /><span>Конструкции</span></label>
+              <label><input type="checkbox" name="model_sections" value="Интерьеры и отделка" /><span>Интерьеры и отделка</span></label>
+              <label><input type="checkbox" name="model_sections" value="Инженерные системы" /><span>Инженерные системы</span></label>
+              <label><input type="checkbox" name="model_sections" value="Прилегающая территория" /><span>Прилегающая территория</span></label>
+              <label><input type="checkbox" name="model_sections" value="Определить совместно" /><span>Определить совместно</span></label>
+            </fieldset>
+            <fieldset class="brief-options brief-lod-options">
+              <legend>Уровень геометрической детализации</legend>
+              <label><input type="radio" name="lod" value="LOD 200" /><span><strong>LOD 200</strong><small>Основные элементы и приблизительные габариты</small></span></label>
+              <label><input type="radio" name="lod" value="LOD 300" /><span><strong>LOD 300</strong><small>Точные положения и размеры видимых элементов</small></span></label>
+              <label><input type="radio" name="lod" value="LOD 350" /><span><strong>До LOD 350</strong><small>Детальные сопряжения видимых конструкций</small></span></label>
+              <label><input type="radio" name="lod" value="Подобрать" /><span><strong>Подобрать</strong><small>Предложим уровень под задачу</small></span></label>
+            </fieldset>
+            <p class="brief-note">LOD 400–500 возможны только при наличии исполнительной документации и технического обследования.</p>
+          </section>
+
+          <section class="brief-step" data-brief-step="4" aria-labelledby="brief-step-5" hidden>
+            <div class="brief-step-heading">
+              <span>05</span>
+              <div>
+                <h3 id="brief-step-5">Что подготовить на выходе</h3>
+                <p>Можно выбрать несколько результатов.</p>
+              </div>
+            </div>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Материалы</legend>
+              <label><input type="checkbox" name="deliverables" value="Облако точек" /><span>Облако точек</span></label>
+              <label><input type="checkbox" name="deliverables" value="3D/BIM-модель" /><span>3D/BIM-модель</span></label>
+              <label><input type="checkbox" name="deliverables" value="Комплект 2D-чертежей" /><span>Комплект 2D-чертежей</span></label>
+              <label><input type="checkbox" name="deliverables" value="Ортофотопланы" /><span>Ортофотопланы</span></label>
+              <label><input type="checkbox" name="deliverables" value="Фотофиксация" /><span>Фотофиксация</span></label>
+              <label><input type="checkbox" name="deliverables" value="Отчёт об отклонениях" /><span>Отчёт об отклонениях</span></label>
+            </fieldset>
+            <fieldset class="brief-options brief-options-grid">
+              <legend>Если нужны чертежи — какие?</legend>
+              <label><input type="checkbox" name="drawings" value="Планы" /><span>Планы</span></label>
+              <label><input type="checkbox" name="drawings" value="Фасады" /><span>Фасады</span></label>
+              <label><input type="checkbox" name="drawings" value="Разрезы" /><span>Разрезы</span></label>
+              <label><input type="checkbox" name="drawings" value="План кровли" /><span>План кровли</span></label>
+              <label><input type="checkbox" name="drawings" value="Экспликации и ведомости" /><span>Экспликации и ведомости</span></label>
+              <label><input type="checkbox" name="drawings" value="Подобрать комплект" /><span>Подобрать комплект</span></label>
+            </fieldset>
+            <div class="brief-fields brief-fields-two">
+              <label class="brief-field"><span>Предпочтительный формат</span><input type="text" name="formats" placeholder="RVT, IFC, DWG, E57 — если известно" /></label>
+              <label class="brief-field"><span>Желаемый срок</span><input type="text" name="deadline" placeholder="Например, до конца месяца" /></label>
+            </div>
+          </section>
+
+          <section class="brief-step" data-brief-step="5" aria-labelledby="brief-step-6" hidden>
+            <div class="brief-step-heading">
+              <span>06</span>
+              <div>
+                <h3 id="brief-step-6">Контакты и комментарий</h3>
+                <p>Мы изучим задачу и свяжемся, если понадобится уточнение.</p>
+              </div>
+            </div>
+            <div class="brief-fields brief-fields-two">
+              <label class="brief-field"><span>Имя *</span><input type="text" name="contact_name" autocomplete="name" required /></label>
+              <label class="brief-field"><span>Компания</span><input type="text" name="company" autocomplete="organization" /></label>
+              <label class="brief-field"><span>Телефон *</span><input type="tel" name="contact_phone" autocomplete="tel" inputmode="tel" required /></label>
+              <label class="brief-field"><span>E-mail</span><input type="email" name="contact_email" autocomplete="email" /></label>
+            </div>
+            <label class="brief-field brief-field-textarea">
+              <span>Что ещё важно учесть?</span>
+              <textarea name="comment" rows="3" placeholder="Особенности доступа, режим работы объекта, дополнительные требования"></textarea>
+            </label>
+            <label class="brief-consent">
+              <input type="checkbox" name="consent" required />
+              <span>Согласен на обработку персональных данных в соответствии с политикой конфиденциальности.</span>
+            </label>
+            <p class="brief-form-status" role="status" aria-live="polite"></p>
+          </section>
+
+          <div class="brief-controls">
+            <button class="brief-back" type="button" data-brief-back disabled>Назад</button>
+            <button class="brief-next" type="button" data-brief-next>Продолжить</button>
+            <button class="brief-submit" type="submit" hidden>Отправить бриф</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <footer class="site-footer">
+      <span>© ГеоВектор, 2026</span>
+      <a href="https://geo-vector.ru/privacypolicy">Политика конфиденциальности</a>
+    </footer>
+  </body>
+</html>
