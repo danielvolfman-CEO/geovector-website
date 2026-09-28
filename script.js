@@ -18,6 +18,77 @@ const briefProgress = document.querySelector('.brief-progress-bar');
 const briefProgressLabel = document.querySelector('.brief-progress-label');
 const briefFormStatus = document.querySelector('.brief-form-status');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/geo-vectorru@yandex.ru';
+
+const formFieldLabels = {
+  name: 'Имя',
+  phone: 'Телефон',
+  object: 'Объект',
+  area: 'Площадь, м²',
+  purpose: 'Задача',
+  scan_zones: 'Зоны сканирования',
+  extra_scope: 'Дополнительный состав работ',
+  source_data: 'Исходные данные',
+  coordinates: 'Привязка к координатам',
+  mirrors: 'Зеркальные поверхности',
+  model_sections: 'Разделы BIM-модели',
+  lod: 'Уровень детализации',
+  deliverables: 'Результаты работ',
+  drawings: 'Комплект чертежей',
+  formats: 'Форматы',
+  deadline: 'Желаемый срок',
+  contact_name: 'Контактное лицо',
+  company: 'Компания',
+  contact_phone: 'Контактный телефон',
+  contact_email: 'E-mail',
+  comment: 'Комментарий',
+  consent: 'Согласие на обработку данных',
+};
+
+const buildFormPayload = (sourceForm, formName) => {
+  const groupedValues = new Map();
+  const data = new FormData(sourceForm);
+
+  for (const [name, rawValue] of data.entries()) {
+    if (name.startsWith('_')) continue;
+    const value = String(rawValue).trim();
+    if (!value) continue;
+    const values = groupedValues.get(name) || [];
+    values.push(value === 'on' ? 'Да' : value);
+    groupedValues.set(name, values);
+  }
+
+  const payload = {
+    _subject: data.get('_subject') || formName,
+    _template: 'table',
+    _captcha: 'false',
+    Форма: formName,
+  };
+
+  groupedValues.forEach((values, name) => {
+    payload[formFieldLabels[name] || name] = values.join(', ');
+  });
+
+  const replyTo = data.get('contact_email');
+  if (replyTo) payload.email = String(replyTo).trim();
+  return payload;
+};
+
+const submitForm = async (sourceForm, formName) => {
+  const response = await fetch(FORM_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(buildFormPayload(sourceForm, formName)),
+  });
+
+  if (!response.ok) throw new Error(`Form request failed: ${response.status}`);
+  const result = await response.json().catch(() => ({}));
+  if (result.success === false) throw new Error(result.message || 'Form submission failed');
+  return result;
+};
 
 if (briefDialog && briefForm && briefSteps.length) {
   let currentBriefStep = 0;
@@ -96,7 +167,7 @@ if (briefDialog && briefForm && briefSteps.length) {
     if (event.key === 'Escape' && briefDialog.hasAttribute('open')) closeBrief();
   });
 
-  briefForm.addEventListener('submit', (event) => {
+  briefForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!briefForm.checkValidity()) {
       briefForm.reportValidity();
@@ -104,8 +175,28 @@ if (briefDialog && briefForm && briefSteps.length) {
       return;
     }
 
-    if (briefFormStatus) {
-      briefFormStatus.textContent = 'Бриф заполнен. Подключение отправки выполним вместе с основной формой сайта.';
+    const honeypot = briefForm.elements.namedItem('_honey');
+    if (honeypot?.value) return;
+
+    if (briefSubmitButton) {
+      briefSubmitButton.disabled = true;
+      briefSubmitButton.dataset.defaultText ||= briefSubmitButton.textContent;
+      briefSubmitButton.textContent = 'Отправляем…';
+    }
+    if (briefFormStatus) briefFormStatus.textContent = '';
+
+    try {
+      await submitForm(briefForm, 'Подробный бриф');
+      if (briefFormStatus) briefFormStatus.textContent = 'Спасибо! Бриф отправлен. Мы свяжемся с вами после изучения задачи.';
+      briefForm.reset();
+    } catch (error) {
+      console.error(error);
+      if (briefFormStatus) briefFormStatus.textContent = 'Не удалось отправить бриф. Позвоните нам по номеру +7 (908) 918-47-84 или попробуйте ещё раз.';
+    } finally {
+      if (briefSubmitButton) {
+        briefSubmitButton.disabled = false;
+        briefSubmitButton.textContent = briefSubmitButton.dataset.defaultText || 'Отправить бриф';
+      }
     }
   });
 
@@ -211,7 +302,7 @@ if (reduceMotion) {
 }
 
 if (form && formStatus) {
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const name = form.elements.namedItem('name');
     const phone = form.elements.namedItem('phone');
@@ -224,7 +315,30 @@ if (form && formStatus) {
     }
     name.removeAttribute('aria-invalid');
     phone.removeAttribute('aria-invalid');
-    formStatus.textContent = 'Форма готова. Обработчик отправки подключим на следующем этапе.';
+    const honeypot = form.elements.namedItem('_honey');
+    if (honeypot?.value) return;
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.dataset.defaultText ||= submitButton.textContent;
+      submitButton.textContent = 'Отправляем…';
+    }
+    formStatus.textContent = '';
+
+    try {
+      await submitForm(form, 'Быстрая заявка');
+      formStatus.textContent = 'Спасибо! Заявка отправлена. Мы скоро свяжемся с вами.';
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      formStatus.textContent = 'Не удалось отправить заявку. Позвоните нам по номеру +7 (908) 918-47-84 или попробуйте ещё раз.';
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = submitButton.dataset.defaultText || 'Оставить заявку';
+      }
+    }
   });
 }
 

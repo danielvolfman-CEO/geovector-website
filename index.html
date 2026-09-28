@@ -15,15 +15,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css?v=20260928-layout-11" />
-    <link rel="stylesheet" href="./layout-refinements.css?v=20260928-41" />
-    <script src="./script.js?v=20260928-mobile-accordion-1" defer></script>
+    <link rel="stylesheet" href="./layout-refinements.css?v=20260929-forms-nav-1" />
+    <script src="./script.js?v=20260929-forms-nav-1" defer></script>
     <script src="./point-cloud.js" type="module"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Перейти к содержанию</a>
 
     <header class="site-header">
-      <a class="logo" href="https://geo-vector.ru/" aria-label="ГеоВектор — главная">
+      <a class="logo" href="#main" aria-label="ГеоВектор — главная">
         <img
           src="https://static.tildacdn.com/tild3539-3234-4263-a165-303534616332/_24x_1.svg"
           alt="ГеоВектор"
@@ -36,10 +36,10 @@
       </button>
 
       <nav class="site-nav" id="site-nav" aria-label="Основная навигация">
-        <a href="https://geo-vector.ru/yslugi">Услуги</a>
-        <a href="https://geo-vector.ru/project">Проекты</a>
-        <a href="https://geo-vector.ru/progect">О компании</a>
-        <a href="https://geovector.store/">Магазин</a>
+        <a href="#workflow">Услуги</a>
+        <a href="#latest-work">Проекты</a>
+        <a href="#experience">О компании</a>
+        <a href="https://geovector.store/" target="_blank" rel="noopener noreferrer">Магазин</a>
       </nav>
 
       <a class="header-phone" href="tel:+79089184784">+7 (908) 918-47-84</a>
@@ -166,7 +166,7 @@
         </div>
       </aside>
 
-      <section class="experience-section" aria-labelledby="experience-title">
+      <section class="experience-section" id="experience" aria-labelledby="experience-title">
         <header class="experience-heading">
           <h2 id="experience-title">Наш опыт</h2>
         </header>
@@ -442,14 +442,23 @@
                 +7 (908) 918-47-84
               </a>
             </div>
-            <form class="contact-form" novalidate>
+            <form
+              class="contact-form"
+              action="https://formsubmit.co/geo-vectorru@yandex.ru"
+              method="POST"
+              novalidate
+            >
+              <input type="hidden" name="_subject" value="Новая заявка с сайта ГеоВектор" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
               <label>
                 <span>Ваше имя</span>
-                <input type="text" name="name" autocomplete="name" placeholder="Ваше имя" />
+                <input type="text" name="name" autocomplete="name" placeholder="Ваше имя" required />
               </label>
               <label>
                 <span>Телефон</span>
-                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (000) 000-00-00" />
+                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (000) 000-00-00" required />
               </label>
               <button type="submit">Оставить заявку</button>
               <p class="form-status" role="status" aria-live="polite"></p>
@@ -486,7 +495,16 @@
           <p class="brief-progress-label" aria-live="polite">Шаг 1 из 6</p>
         </aside>
 
-        <form class="brief-form" novalidate>
+        <form
+          class="brief-form"
+          action="https://formsubmit.co/geo-vectorru@yandex.ru"
+          method="POST"
+          novalidate
+        >
+          <input type="hidden" name="_subject" value="Новый бриф с сайта ГеоВектор" />
+          <input type="hidden" name="_template" value="table" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
           <section class="brief-step is-active" data-brief-step="0" aria-labelledby="brief-step-1">
             <div class="brief-step-heading">
               <span>01</span>
