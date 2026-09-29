@@ -30,24 +30,15 @@ if (section && canvas && visual) {
     morph: reducedMotion ? 1 : 0,
     turbulence: reducedMotion ? 0 : 1,
     progress: reducedMotion ? 1 : 0,
-    activeMetric: 0,
   };
 
   let points = null;
-  let ghostPoints = null;
-  let measurementGuide = null;
-  let scanPlane = null;
-  let anchorPoints = null;
-  let referenceGrid = null;
   let output = null;
   let target = null;
   let chaos = null;
   let drift = null;
   let phases = null;
   let frame = 0;
-  let manualRotation = 0;
-  let isDragging = false;
-  let dragStartX = 0;
   const clock = new THREE.Clock();
 
   const loader = new PLYLoader();
@@ -135,7 +126,6 @@ if (section && canvas && visual) {
 
       points = new THREE.Points(bufferGeometry, material);
       root.add(points);
-      createTechnicalGuides(bufferGeometry);
       root.rotation.set(-0.03, -0.18, 0);
       setupScroll();
     },
@@ -145,81 +135,6 @@ if (section && canvas && visual) {
       section.classList.add('tech-cloud--model-error');
     },
   );
-
-  function createTechnicalGuides(bufferGeometry) {
-    const guideMaterial = new THREE.LineBasicMaterial({
-      color: 0x86c8ef,
-      transparent: true,
-      opacity: reducedMotion ? 0.52 : 0,
-      depthWrite: false,
-    });
-    const guideVertices = new Float32Array([
-      0.06, -0.18, 0.68, 0.62, -0.18, 0.68,
-      0.62, -0.18, 0.68, 0.62, 0.32, 0.68,
-      0.62, 0.32, 0.68, 0.06, 0.32, 0.68,
-      0.06, 0.32, 0.68, 0.06, -0.18, 0.68,
-      0.02, -0.18, 0.68, -0.08, -0.18, 0.68,
-      0.02, 0.32, 0.68, -0.08, 0.32, 0.68,
-    ]);
-    const guideGeometry = new THREE.BufferGeometry();
-    guideGeometry.setAttribute('position', new THREE.BufferAttribute(guideVertices, 3));
-    measurementGuide = new THREE.LineSegments(guideGeometry, guideMaterial);
-    measurementGuide.renderOrder = 4;
-    root.add(measurementGuide);
-
-    const ghostMaterial = new THREE.PointsMaterial({
-      size: window.innerWidth < 700 ? 0.019 : 0.015,
-      color: 0x5eaee0,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-    ghostPoints = new THREE.Points(bufferGeometry, ghostMaterial);
-    ghostPoints.position.x = -0.2;
-    ghostPoints.renderOrder = 1;
-    root.add(ghostPoints);
-
-    const planeMaterial = new THREE.MeshBasicMaterial({
-      color: 0x4a9bd1,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending,
-    });
-    scanPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.8), planeMaterial);
-    scanPlane.rotation.y = Math.PI / 2;
-    scanPlane.renderOrder = 3;
-    root.add(scanPlane);
-
-    const anchorGeometry = new THREE.BufferGeometry();
-    anchorGeometry.setAttribute('position', new THREE.Float32BufferAttribute([
-      -0.62, -0.66, 0.34,
-      0.58, -0.7, 0.28,
-      0.15, 0.58, -0.18,
-    ], 3));
-    const anchorMaterial = new THREE.PointsMaterial({
-      color: 0xb8dcf2,
-      size: window.innerWidth < 700 ? 0.075 : 0.055,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-    anchorPoints = new THREE.Points(anchorGeometry, anchorMaterial);
-    anchorPoints.renderOrder = 5;
-    root.add(anchorPoints);
-
-    referenceGrid = new THREE.GridHelper(2.35, 12, 0x568fb3, 0x264c65);
-    referenceGrid.position.y = -0.78;
-    referenceGrid.material.transparent = true;
-    referenceGrid.material.opacity = 0;
-    referenceGrid.material.depthWrite = false;
-    root.add(referenceGrid);
-  }
 
   function setupScroll() {
     if (reducedMotion) {
@@ -280,7 +195,6 @@ if (section && canvas && visual) {
       card.style.filter = `blur(${(1 - prominence) * 14}px)`;
       card.style.transform = `translate3d(0, ${Math.max(-26, Math.min(52, signedDistance * 0.075))}px, 0) scale(${0.97 + prominence * 0.03})`;
     });
-    state.activeMetric = closestIndex;
     section.dataset.activeMetric = String(closestIndex);
   }
 
@@ -316,84 +230,12 @@ if (section && canvas && visual) {
       const sceneScale = 0.56 + morph * 0.94;
       root.scale.setScalar(sceneScale);
       root.position.y = inverse * 0.18;
-      const viewRotations = [-0.08, -0.34, 0.16, -0.22];
-      const rotationTarget = viewRotations[state.activeMetric] + manualRotation;
-      root.rotation.y = THREE.MathUtils.lerp(root.rotation.y, rotationTarget, 0.035);
-      root.rotation.y += Math.sin(elapsed * 0.25) * 0.00025;
+      root.rotation.y = -0.18 + elapsed * (0.012 + inverse * 0.025);
       root.rotation.x = -0.03 + Math.sin(elapsed * 0.22) * 0.018;
       points.material.opacity = 0.63 + morph * 0.3;
-
-      const cameraTargets = [
-        [0.12, 0.08, 3.55],
-        [-0.13, 0.03, 3.88],
-        [0.08, 0.04, 3.62],
-        [0, -0.04, 4.02],
-      ];
-      const cameraTarget = cameraTargets[state.activeMetric];
-      camera.position.x = THREE.MathUtils.lerp(camera.position.x, cameraTarget[0], 0.035);
-      camera.position.y = THREE.MathUtils.lerp(camera.position.y, cameraTarget[1], 0.035);
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, cameraTarget[2], 0.035);
-
-      updateTechnicalGuides(elapsed);
     }
 
     renderer.render(scene, camera);
-  }
-
-  function fadeMaterial(material, visible, maximum, speed = 0.075) {
-    if (!material) return;
-    material.opacity = THREE.MathUtils.lerp(material.opacity, visible ? maximum : 0, speed);
-  }
-
-  function updateTechnicalGuides(elapsed) {
-    const metric = state.activeMetric;
-    fadeMaterial(measurementGuide?.material, metric === 0 && state.morph > 0.32, 0.68);
-
-    if (ghostPoints) {
-      fadeMaterial(ghostPoints.material, metric === 1, 0.28);
-      const registerPulse = (Math.sin(elapsed * 1.45) + 1) * 0.5;
-      const registrationOffset = 0.035 + registerPulse * 0.055;
-      ghostPoints.position.x = THREE.MathUtils.lerp(ghostPoints.position.x, metric === 1 ? -registrationOffset : 0, 0.08);
-      ghostPoints.position.z = metric === 1 ? 0.025 : 0;
-    }
-
-    if (scanPlane) {
-      fadeMaterial(scanPlane.material, metric === 2, 0.16);
-      scanPlane.position.x = Math.sin(elapsed * 0.62) * 0.72;
-    }
-
-    if (anchorPoints) {
-      fadeMaterial(anchorPoints.material, metric === 3, 0.92);
-      anchorPoints.material.size = (window.innerWidth < 700 ? 0.075 : 0.055) * (1 + Math.sin(elapsed * 2.1) * 0.12);
-    }
-
-    if (referenceGrid?.material) {
-      fadeMaterial(referenceGrid.material, metric === 3, 0.24);
-    }
-  }
-
-  const precisePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
-  if (precisePointer.matches && !reducedMotion) {
-    visual.classList.add('is-draggable');
-    visual.addEventListener('pointerdown', (event) => {
-      isDragging = true;
-      dragStartX = event.clientX;
-      visual.classList.add('is-dragging');
-      visual.setPointerCapture(event.pointerId);
-    });
-    visual.addEventListener('pointermove', (event) => {
-      if (!isDragging) return;
-      const delta = event.clientX - dragStartX;
-      dragStartX = event.clientX;
-      manualRotation += delta * 0.004;
-    });
-    const endDrag = (event) => {
-      isDragging = false;
-      visual.classList.remove('is-dragging');
-      if (visual.hasPointerCapture(event.pointerId)) visual.releasePointerCapture(event.pointerId);
-    };
-    visual.addEventListener('pointerup', endDrag);
-    visual.addEventListener('pointercancel', endDrag);
   }
 
   let previousWidth = 0;
