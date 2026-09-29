@@ -36,8 +36,8 @@ if (section && canvas && visual) {
   let points = null;
   let ghostPoints = null;
   let measurementGuide = null;
+  let scanPlane = null;
   let anchorPoints = null;
-  let anchorGuides = null;
   let referenceGrid = null;
   let output = null;
   let target = null;
@@ -152,7 +152,6 @@ if (section && canvas && visual) {
       transparent: true,
       opacity: reducedMotion ? 0.52 : 0,
       depthWrite: false,
-      depthTest: false,
     });
     const guideVertices = new Float32Array([
       0.06, -0.18, 0.68, 0.62, -0.18, 0.68,
@@ -174,7 +173,6 @@ if (section && canvas && visual) {
       transparent: true,
       opacity: 0,
       depthWrite: false,
-      depthTest: false,
       blending: THREE.AdditiveBlending,
       sizeAttenuation: true,
     });
@@ -183,6 +181,19 @@ if (section && canvas && visual) {
     ghostPoints.renderOrder = 1;
     root.add(ghostPoints);
 
+    const planeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x4a9bd1,
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+    });
+    scanPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.8), planeMaterial);
+    scanPlane.rotation.y = Math.PI / 2;
+    scanPlane.renderOrder = 3;
+    root.add(scanPlane);
+
     const anchorGeometry = new THREE.BufferGeometry();
     anchorGeometry.setAttribute('position', new THREE.Float32BufferAttribute([
       -0.62, -0.66, 0.34,
@@ -190,45 +201,17 @@ if (section && canvas && visual) {
       0.15, 0.58, -0.18,
     ], 3));
     const anchorMaterial = new THREE.PointsMaterial({
-      color: 0x42b7ff,
-      size: window.innerWidth < 700 ? 0.24 : 0.2,
+      color: 0xb8dcf2,
+      size: window.innerWidth < 700 ? 0.075 : 0.055,
       transparent: true,
       opacity: 0,
       depthWrite: false,
-      depthTest: false,
       blending: THREE.AdditiveBlending,
       sizeAttenuation: true,
     });
     anchorPoints = new THREE.Points(anchorGeometry, anchorMaterial);
     anchorPoints.renderOrder = 5;
     root.add(anchorPoints);
-
-    const anchorCenters = [
-      [-0.62, -0.66, 0.34],
-      [0.58, -0.7, 0.28],
-      [0.15, 0.58, -0.18],
-    ];
-    const crossSize = 0.2;
-    const crossVertices = [];
-    anchorCenters.forEach(([x, y, z]) => {
-      crossVertices.push(
-        x - crossSize, y, z, x + crossSize, y, z,
-        x, y - crossSize, z, x, y + crossSize, z,
-        x, y, z - crossSize, x, y, z + crossSize,
-      );
-    });
-    const crossGeometry = new THREE.BufferGeometry();
-    crossGeometry.setAttribute('position', new THREE.Float32BufferAttribute(crossVertices, 3));
-    const crossMaterial = new THREE.LineBasicMaterial({
-      color: 0x42b7ff,
-      transparent: true,
-      opacity: 0,
-      depthWrite: false,
-      depthTest: false,
-    });
-    anchorGuides = new THREE.LineSegments(crossGeometry, crossMaterial);
-    anchorGuides.renderOrder = 6;
-    root.add(anchorGuides);
 
     referenceGrid = new THREE.GridHelper(2.35, 12, 0x568fb3, 0x264c65);
     referenceGrid.position.y = -0.78;
@@ -252,8 +235,8 @@ if (section && canvas && visual) {
       const distance = Math.max(1, rect.height - window.innerHeight);
       const progress = THREE.MathUtils.clamp(-rect.top / distance, 0, 1);
       state.progress = progress;
-      state.morph = THREE.MathUtils.smoothstep(progress, 0.04, 0.68);
-      state.turbulence = 1 - THREE.MathUtils.smoothstep(progress, 0.08, 0.56);
+      state.morph = THREE.MathUtils.smoothstep(progress, 0.08, 0.96);
+      state.turbulence = 1 - THREE.MathUtils.smoothstep(progress, 0.12, 0.84);
       updateMetricDepth();
     };
 
@@ -339,9 +322,6 @@ if (section && canvas && visual) {
       root.rotation.y += Math.sin(elapsed * 0.25) * 0.00025;
       root.rotation.x = -0.03 + Math.sin(elapsed * 0.22) * 0.018;
       points.material.opacity = 0.63 + morph * 0.3;
-      const basePointSize = window.innerWidth < 700 ? 0.018 : 0.014;
-      const detailPointSize = state.activeMetric === 2 ? basePointSize * 0.68 : basePointSize;
-      points.material.size = THREE.MathUtils.lerp(points.material.size, detailPointSize, 0.055);
 
       const cameraTargets = [
         [0.12, 0.08, 3.55],
@@ -367,27 +347,28 @@ if (section && canvas && visual) {
 
   function updateTechnicalGuides(elapsed) {
     const metric = state.activeMetric;
-    fadeMaterial(measurementGuide?.material, metric === 0, 0.95, 0.1);
+    fadeMaterial(measurementGuide?.material, metric === 0 && state.morph > 0.32, 0.68);
 
     if (ghostPoints) {
-      fadeMaterial(ghostPoints.material, metric === 1, 0.48, 0.1);
+      fadeMaterial(ghostPoints.material, metric === 1, 0.28);
       const registerPulse = (Math.sin(elapsed * 1.45) + 1) * 0.5;
-      const registrationOffset = 0.1 + registerPulse * 0.1;
+      const registrationOffset = 0.035 + registerPulse * 0.055;
       ghostPoints.position.x = THREE.MathUtils.lerp(ghostPoints.position.x, metric === 1 ? -registrationOffset : 0, 0.08);
-      ghostPoints.position.z = metric === 1 ? 0.055 : 0;
+      ghostPoints.position.z = metric === 1 ? 0.025 : 0;
+    }
+
+    if (scanPlane) {
+      fadeMaterial(scanPlane.material, metric === 2, 0.16);
+      scanPlane.position.x = Math.sin(elapsed * 0.62) * 0.72;
     }
 
     if (anchorPoints) {
-      fadeMaterial(anchorPoints.material, metric === 3, 1, 0.11);
-      anchorPoints.material.size = (window.innerWidth < 700 ? 0.24 : 0.2) * (1 + Math.sin(elapsed * 2.1) * 0.16);
-    }
-
-    if (anchorGuides) {
-      fadeMaterial(anchorGuides.material, metric === 3, 1, 0.11);
+      fadeMaterial(anchorPoints.material, metric === 3, 0.92);
+      anchorPoints.material.size = (window.innerWidth < 700 ? 0.075 : 0.055) * (1 + Math.sin(elapsed * 2.1) * 0.12);
     }
 
     if (referenceGrid?.material) {
-      fadeMaterial(referenceGrid.material, metric === 3, 0.58, 0.1);
+      fadeMaterial(referenceGrid.material, metric === 3, 0.24);
     }
   }
 
