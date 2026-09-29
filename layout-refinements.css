@@ -2368,16 +2368,30 @@ html {
   }
 
   .client-trust-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.65rem 1.15rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem 1.5rem;
+    align-items: center;
   }
 
   .client-trust-list li {
-    height: 2.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.25rem;
+    overflow: hidden;
+    background: rgba(170, 183, 191, 0.46);
   }
 
-  .client-trust-list li:nth-child(n + 13) {
-    display: none;
+  .client-trust-list img {
+    width: 86%;
+    max-width: none;
+    height: 72%;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(1) saturate(0) brightness(0.86) contrast(1.32);
+    mix-blend-mode: multiply;
+    opacity: 0.82;
   }
 }
 
