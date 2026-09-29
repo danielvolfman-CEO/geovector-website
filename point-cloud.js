@@ -1,5 +1,5 @@
 import * as THREE from './assets/point-cloud/vendor/three.module.js';
-import { PLYLoader } from './assets/point-cloud/vendor/PLYLoader.mjs';
+import { PLYLoader } from './assets/point-cloud/vendor/PLYLoader.js';
 
 const section = document.querySelector('.tech-cloud');
 const canvas = document.querySelector('#tech-cloud-canvas');
