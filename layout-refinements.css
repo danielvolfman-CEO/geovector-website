@@ -2737,3 +2737,27 @@ main {
     column-gap: clamp(0.85rem, 3.5vw, 1.25rem);
   }
 }
+
+/* Keep the canvas continuous; use the good blue tone only on the contact frame. */
+.contact {
+  margin-top: -1px;
+  background: linear-gradient(180deg, var(--canvas-9) 0%, var(--canvas-10) 100%);
+}
+
+.contact .section-inner {
+  padding-inline: var(--gutter);
+}
+
+.contact-card {
+  max-width: 112rem;
+  padding: clamp(3rem, 4.5vw, 5.25rem);
+  border-radius: 0;
+  background: #091a28;
+  box-shadow: none;
+}
+
+@media (max-width: 700px) {
+  .contact-card {
+    padding: 2.5rem clamp(1.25rem, 4vw, 1.6rem) 2.75rem;
+  }
+}
