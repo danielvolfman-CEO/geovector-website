@@ -1353,6 +1353,17 @@
   }
 }
 
+/* A single full-width contact slab separates conversion from the main canvas. */
+.contact {
+  margin-top: 0;
+  background: #091a28;
+}
+
+.contact + .site-footer,
+.site-footer {
+  background: #030a10;
+}
+
 /* Continuous blue-grey canvas: every section shares its edge color with the next. */
 :root {
   --canvas-0: #020509;
